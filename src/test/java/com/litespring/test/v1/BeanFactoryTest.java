@@ -4,6 +4,7 @@ import com.litespring.beans.BeanDefinition;
 import com.litespring.beans.factory.BeanFactory;
 import com.litespring.beans.factory.support.DefaultBeanFactory;
 import com.litespring.service.v1.PetStoreService;
+import com.litespring.util.ClassUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,6 +14,17 @@ import static org.junit.Assert.*;
  * Date:2019/10/23
  */
 public class BeanFactoryTest {
+
+    @Test
+    public void testClassUtil(){
+        ClassLoader cl = ClassUtils.getDefaultClassLoader();
+        String beanClassName = "com.litespring.service.v1.PetStoreService";
+        try {
+            Class<?> clz = cl.loadClass(beanClassName);
+            Object obj = clz.newInstance();
+        } catch (Exception e) {
+        }
+    }
 
     @Test
     public void testGetBean(){
