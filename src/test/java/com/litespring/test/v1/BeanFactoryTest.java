@@ -3,9 +3,12 @@ package com.litespring.test.v1;
 import com.litespring.beans.BeanDefinition;
 import com.litespring.beans.factory.BeanFactory;
 import com.litespring.beans.factory.support.DefaultBeanFactory;
+import com.litespring.beans.factory.xml.XmlBeanDefinitionReader;
+import com.litespring.core.io.ClassPathResource;
 import com.litespring.service.v1.PetStoreService;
 import com.litespring.util.ClassUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,6 +18,16 @@ import static org.junit.Assert.*;
  * Date:2019/10/23
  */
 public class BeanFactoryTest {
+
+    DefaultBeanFactory factory = null;
+    XmlBeanDefinitionReader reader =null;
+
+
+    @Before
+    public void setUP(){
+         factory = new DefaultBeanFactory();
+         reader = new XmlBeanDefinitionReader(factory);
+    }
 
     @Test
     public void testClassUtil(){
@@ -29,7 +42,7 @@ public class BeanFactoryTest {
 
     @Test
     public void testGetBean(){
-        BeanFactory factory = new DefaultBeanFactory("petstore-v1.xml");
+        reader.loadBeanDefinitions(new ClassPathResource("petstore-v1.xml"));
         BeanDefinition bd = factory.getBeanDefinition("petStore");
         assertEquals("com.litespring.service.v1.PetStoreService",bd.getBeanClassName());
         PetStoreService petStoreService = (PetStoreService) factory.getBean("petStore");
@@ -40,7 +53,7 @@ public class BeanFactoryTest {
     @Test
     public void testInvalidBean(){
         try {
-            BeanFactory factory = new DefaultBeanFactory("petstore-v1.xml");
+            reader.loadBeanDefinitions(new ClassPathResource("petstore-v1.xml"));
             factory.getBean("invalidBean");
         }catch (Exception e){
             return;
@@ -51,7 +64,7 @@ public class BeanFactoryTest {
     @Test
     public void testInvalidXML(){
         try {
-            BeanFactory factory = new DefaultBeanFactory("xxx.xml");
+            reader.loadBeanDefinitions(new ClassPathResource("petstore-v1.xml"));
             BeanDefinition bd = factory.getBeanDefinition("petStore");
         }catch (Exception e){
             return;
