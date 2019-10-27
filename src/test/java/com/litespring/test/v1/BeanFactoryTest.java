@@ -5,6 +5,7 @@ import com.litespring.beans.factory.BeanFactory;
 import com.litespring.beans.factory.support.DefaultBeanFactory;
 import com.litespring.service.v1.PetStoreService;
 import com.litespring.util.ClassUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -34,5 +35,27 @@ public class BeanFactoryTest {
         PetStoreService petStoreService = (PetStoreService) factory.getBean("petStore");
         assertNotNull(petStoreService);
 
+    }
+
+    @Test
+    public void testInvalidBean(){
+        try {
+            BeanFactory factory = new DefaultBeanFactory("petstore-v1.xml");
+            factory.getBean("invalidBean");
+        }catch (Exception e){
+            return;
+        }
+        Assert.fail("expect BeanCreationException ");
+    }
+
+    @Test
+    public void testInvalidXML(){
+        try {
+            BeanFactory factory = new DefaultBeanFactory("xxx.xml");
+            BeanDefinition bd = factory.getBeanDefinition("petStore");
+        }catch (Exception e){
+            return;
+        }
+        Assert.fail("expect BeanDefinitionStoreException ");
     }
 }
