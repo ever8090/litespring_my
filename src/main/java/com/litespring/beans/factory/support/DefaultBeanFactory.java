@@ -2,11 +2,13 @@ package com.litespring.beans.factory.support;
 
 import com.litespring.beans.BeanDefinition;
 import com.litespring.beans.PropertyValue;
+import com.litespring.beans.SimpleTypeConverter;
 import com.litespring.beans.factory.BeanCreationException;
 import com.litespring.beans.factory.BeanDefinitionStoreException;
 import com.litespring.beans.factory.BeanFactory;
 import com.litespring.beans.factory.config.ConfigurableBeanFactory;
 import com.litespring.util.ClassUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -97,7 +99,8 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
                 for (PropertyDescriptor pd : pds) {
                     if(pd.getName().equals(propertyName)){
 //                        Object convertedValue = converter.convertIfNecessary(resolvedValue, pd.getPropertyType());
-                        pd.getWriteMethod().invoke(bean, resolvedValue);
+//                        pd.getWriteMethod().invoke(bean, convertedValue);
+                        BeanUtils.setProperty(bean,propertyName,resolvedValue);
                         break;
                     }
                 }
