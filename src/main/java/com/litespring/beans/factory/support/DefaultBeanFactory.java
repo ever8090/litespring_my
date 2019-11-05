@@ -59,7 +59,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         //创建实例
         Object bean = instantiateBean(bd);
         //填充bean属性
-//        populateBean(bd, bean);
+        populateBean(bd, bean);
 
         return bean;
 
@@ -75,7 +75,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         }
     }
 
-    /*protected void populateBean(BeanDefinition bd, Object bean){
+    protected void populateBean(BeanDefinition bd, Object bean){
         List<PropertyValue> pvs = bd.getPropertyValues();
 
         if (pvs == null || pvs.isEmpty()) {
@@ -83,7 +83,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         }
 
         BeanDefinitionValueResolver valueResolver = new BeanDefinitionValueResolver(this);
-        SimpleTypeConverter converter = new SimpleTypeConverter();
+//        SimpleTypeConverter converter = new SimpleTypeConverter();
         try{
 
             BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
@@ -96,8 +96,8 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 
                 for (PropertyDescriptor pd : pds) {
                     if(pd.getName().equals(propertyName)){
-                        Object convertedValue = converter.convertIfNecessary(resolvedValue, pd.getPropertyType());
-                        pd.getWriteMethod().invoke(bean, convertedValue);
+//                        Object convertedValue = converter.convertIfNecessary(resolvedValue, pd.getPropertyType());
+                        pd.getWriteMethod().invoke(bean, resolvedValue);
                         break;
                     }
                 }
@@ -107,7 +107,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         }catch(Exception ex){
             throw new BeanCreationException("Failed to obtain BeanInfo for class [" + bd.getBeanClassName() + "]", ex);
         }
-    }*/
+    }
 
     public void setBeanClassLoader(ClassLoader beanClassLoader) {
         this.beanClassLoader = beanClassLoader;
