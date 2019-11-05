@@ -1,5 +1,8 @@
 package com.litespring.beans;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * author:Liuwx
  * Date:2019/10/23
@@ -16,4 +19,6 @@ public interface BeanDefinition {
     void setScope(String scope);
 
     public String getBeanClassName();
+
+    List<PropertyValue> getPropertyValues();
 }
